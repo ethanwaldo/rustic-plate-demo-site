@@ -338,18 +338,10 @@ footer .footer-bottom {
 }
 
 @media screen and (max-width: 768px) {
-  .hamburger {
+  header .nav-container .hamburger {
     display: block;
   }
-  .nav-container {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 1rem 5%;
-    max-width: 1200px;
-    margin: 0 auto;
-  }
-  .nav-links {
+  header .nav-container .nav-links {
     display: none;
     flex-direction: column;
     width: 100%;
@@ -361,10 +353,10 @@ footer .footer-bottom {
     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
     text-align: center;
   }
-  .nav-links.show-menu {
+  header .nav-container .nav-links.show-menu {
     display: flex;
   }
-  .nav-links li {
+  header .nav-container .nav-links li {
     padding: 10px 0;
   }
   .hero h1 {

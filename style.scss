@@ -405,37 +405,30 @@ footer {
 
 // --- Mobile Responsive Design ---
 @media screen and (max-width: 768px) {
-    .hamburger {
-        display: block;
-    }
-
-    .nav-container {
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-        padding: 1rem 5%;
-        max-width: 1200px;
-        margin: 0 auto;
-    }
-
-    .nav-links {
-        display: none;
-        flex-direction: column;
-        width: 100%;
-        background-color: $white;
-        position: absolute;
-        top: 70px;
-        left: 0;
-        padding: 1rem 0;
-        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-        text-align: center;
-
-        &.show-menu {
-            display: flex;
+    header .nav-container {
+        .hamburger {
+            display: block; // Show hamburger on mobile
         }
 
-        li {
-            padding: 10px 0;
+        .nav-links {
+            display: none; // Hide links by default on mobile
+            flex-direction: column;
+            width: 100%;
+            background-color: $white;
+            position: absolute;
+            top: 70px;
+            left: 0;
+            padding: 1rem 0;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            text-align: center;
+
+            &.show-menu {
+                display: flex; // Show links when toggled
+            }
+
+            li {
+                padding: 10px 0;
+            }
         }
     }
 
