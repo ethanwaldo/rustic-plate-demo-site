@@ -1,0 +1,12 @@
+# Dependencies
+node_modules/
+
+# CSS Source Maps
+*.css.map
+
+# Package Lock (Optional to ignore, but included per request)
+package-lock.json
+
+# OS generated files
+.DS_Store
+Thumbs.db

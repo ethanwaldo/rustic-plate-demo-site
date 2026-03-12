@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Menu | The Rustic Plate</title>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600;700&family=Source+Sans+Pro:wght@400;600&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+    <header>
+        <div class="nav-container">
+            <a href="index.html" class="logo">The Rustic Plate</a>
+            <button class="hamburger" onclick="toggleMenu()">&#9776;</button>
+            <ul class="nav-links" id="nav-links">
+                <li><a href="index.html" class="nav-item">Home</a></li>
+                <li><a href="menu.html" class="nav-item active">Menu</a></li>
+                <li><a href="gallery.html" class="nav-item">Gallery</a></li>
+                <li><a href="about.html" class="nav-item">About</a></li>
+                <li><a href="contact.html" class="nav-item">Contact</a></li>
+            </ul>
+        </div>
+    </header>
+
+    <main>
+        <section id="menu" class="page-section">
+            <div class="section-header">
+                <h2>Our Menu</h2>
+                <p>Fresh, locally sourced ingredients prepared with passion.</p>
+            </div>
+            <div class="menu-grid">
+                <!-- Item 1 -->
+                <div class="menu-card">
+                    <img src="https://images.unsplash.com/photo-1546069901-ba9599a7e63c?auto=format&fit=crop&w=500&q=80"
+                        alt="Tofu Power Bowl" class="menu-img">
+                    <div class="menu-info">
+                        <div class="menu-header">
+                            <span class="menu-title">Tofu Power Bowl</span>
+                            <span class="menu-price">$14</span>
+                        </div>
+                        <p class="menu-desc">Crispy seasoned tofu cubes paired with fresh edamame, sweet corn, cherry
+                            tomatoes, cucumber, red cabbage, and boiled quail eggs.</p>
+                    </div>
+                </div>
+                <!-- Item 2 -->
+                <div class="menu-card">
+                    <img src="https://images.unsplash.com/photo-1568901346375-23c9450c58cd?auto=format&fit=crop&w=500&q=80"
+                        alt="Classic Cheeseburger" class="menu-img">
+                    <div class="menu-info">
+                        <div class="menu-header">
+                            <span class="menu-title">Double Classic Cheeseburger</span>
+                            <span class="menu-price">$18</span>
+                        </div>
+                        <p class="menu-desc">Two juicy beef patties stacked high with melted cheese, crisp lettuce,
+                            tomato, red onion, pickles, and our signature burger sauce on a toasted brioche bun.</p>
+                    </div>
+                </div>
+                <!-- Item 3 -->
+                <div class="menu-card">
+                    <img src="https://images.unsplash.com/photo-1551183053-bf91a1d81141?auto=format&fit=crop&w=500&q=80"
+                        alt="Fettuccine" class="menu-img">
+                    <div class="menu-info">
+                        <div class="menu-header">
+                            <span class="menu-title">Beef & Spinach Fettuccine</span>
+                            <span class="menu-price">$36</span>
+                        </div>
+                        <p class="menu-desc">Tender chunks of seasoned beef seared and tossed with fettuccine pasta,
+                            wilted spinach, and diced tomatoes.</p>
+                    </div>
+                </div>
+                <!-- Item 4 -->
+                <div class="menu-card">
+                    <img src="https://images.unsplash.com/photo-1563379926898-05f4575a45d8?auto=format&fit=crop&w=500&q=80"
+                        alt="Spaghetti" class="menu-img">
+                    <div class="menu-info">
+                        <div class="menu-header">
+                            <span class="menu-title">Shrimp & Tomato Spaghetti</span>
+                            <span class="menu-price">$24</span>
+                        </div>
+                        <p class="menu-desc">Plump, juicy shrimp pan-seared with cherry tomatoes and fresh herbs, served
+                            over a bed of al dente spaghetti.</p>
+                    </div>
+                </div>
+                <!-- Item 5 -->
+                <div class="menu-card">
+                    <img src="https://images.unsplash.com/photo-1604908176997-125f25cc6f3d?auto=format&fit=crop&w=500&q=80"
+                        alt="Chicken Skillet" class="menu-img">
+                    <div class="menu-info">
+                        <div class="menu-header">
+                            <span class="menu-title">Mediterranean Chicken Skillet</span>
+                            <span class="menu-price">$28</span>
+                        </div>
+                        <p class="menu-desc">Golden-brown diced chicken breast sautéed with sweet bell peppers and
+                            tomatoes, garnished with fresh basil leaves.</p>
+                    </div>
+                </div>
+                <!-- Item 6 -->
+                <div class="menu-card">
+                    <img src="https://images.unsplash.com/photo-1565958011703-44f9829ba187?auto=format&fit=crop&w=500&q=80"
+                        alt="Dessert Cake" class="menu-img">
+                    <div class="menu-info">
+                        <div class="menu-header">
+                            <span class="menu-title">Raspberry Vanilla Layer Cake</span>
+                            <span class="menu-price">$10</span>
+                        </div>
+                        <p class="menu-desc">A light and fluffy vanilla sponge cake layered with rich cream and studded
+                            with fresh, tart raspberries.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        <div class="footer-content">
+            <div class="footer-col">
+                <h3>The Rustic Plate</h3>
+                <p>Farm-to-table excellence in every bite.</p>
+            </div>
+            <div class="footer-col">
+                <h3>Business Hours</h3>
+                <ul>
+                    <li>Mon - Thu: 11:00 AM - 10:00 PM</li>
+                    <li>Fri - Sat: 11:00 AM - 11:00 PM</li>
+                    <li>Sunday: 10:00 AM - 9:00 PM</li>
+                </ul>
+            </div>
+            <div class="footer-col">
+                <h3>Follow Us</h3>
+                <div class="social-links">
+                    <a href="#">Facebook</a>
+                    <a href="#">Instagram</a>
+                    <a href="#">Twitter</a>
+                </div>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>&copy; 2026 The Rustic Plate. Practical Web Development Homework 1.</p>
+        </div>
+    </footer>
+    <script src="script.js"></script>
+</body>
+
+</html>
