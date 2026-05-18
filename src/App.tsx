@@ -15,41 +15,48 @@ export interface CartItem {
   name: string;
   price: number;
   quantity: number;
+  _id?: string;
 }
 
 function App() {
-  const [cart, setCart] = useState<CartItem[]>(() => {
-    const saved = localStorage.getItem('cart');
-    return saved ? JSON.parse(saved) : [];
-  });
+  const [cart, setCart] = useState<CartItem[]>([]);
   const [showCart, setShowCart] = useState(false);
 
   useEffect(() => {
-    localStorage.setItem('cart', JSON.stringify(cart));
-  }, [cart]);
+    fetch('/api/cart')
+      .then(res => res.json())
+      .then(setCart)
+      .catch(console.error);
+  }, []);
 
   const addToCart = (item: { name: string; price: number }) => {
-    setCart(prev => {
-      const existing = prev.find(i => i.name === item.name);
-      if (existing) {
-        return prev.map(i => i.name === item.name ? { ...i, quantity: i.quantity + 1 } : i);
-      }
-      return [...prev, { ...item, quantity: 1 }];
-    });
+    fetch('/api/cart/add', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(item)
+    })
+      .then(res => res.json())
+      .then(setCart)
+      .catch(console.error);
   };
 
   const removeFromCart = (name: string) => {
-    setCart(prev => {
-      const existing = prev.find(i => i.name === name);
-      if (!existing) return prev;
-      if (existing.quantity === 1) {
-        return prev.filter(i => i.name !== name);
-      }
-      return prev.map(i => i.name === name ? { ...i, quantity: i.quantity - 1 } : i);
-    });
+    fetch('/api/cart/remove', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ name })
+    })
+      .then(res => res.json())
+      .then(setCart)
+      .catch(console.error);
   };
 
-  const clearCart = () => setCart([]);
+  const clearCart = () => {
+    fetch('/api/cart', { method: 'DELETE' })
+      .then(res => res.json())
+      .then(setCart)
+      .catch(console.error);
+  };
 
   const totalItems = cart.reduce((sum, item) => sum + item.quantity, 0);
   const totalPrice = cart.reduce((sum, item) => sum + item.price * item.quantity, 0);
@@ -154,13 +161,46 @@ interface CartModalProps {
 }
 
 function CartModal({ show, onHide, cart, removeFromCart, clearCart, totalPrice }: CartModalProps) {
+  const [ordering, setOrdering] = useState(false);
+  const [orderStatus, setOrderStatus] = useState<'idle' | 'success' | 'error'>('idle');
+
+  const handleCheckout = async () => {
+    setOrdering(true);
+    setOrderStatus('idle');
+    try {
+      const res = await fetch('/api/orders', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ items: cart, total: totalPrice })
+      });
+      if (!res.ok) throw new Error();
+      setOrderStatus('success');
+      clearCart();
+    } catch {
+      setOrderStatus('error');
+    } finally {
+      setOrdering(false);
+    }
+  };
+
+  const handleHide = () => {
+    setOrderStatus('idle');
+    onHide();
+  };
+
   return (
-    <Modal show={show} onHide={onHide} placement="end" centered className="cart-modal">
+    <Modal show={show} onHide={handleHide} placement="end" centered className="cart-modal">
       <Modal.Header closeButton className="border-bottom-0">
         <Modal.Title className="brand-font fs-3 text-primary">Your Cart</Modal.Title>
       </Modal.Header>
       <Modal.Body>
-        {cart.length === 0 ? (
+        {orderStatus === 'success' && (
+          <div className="alert alert-success text-center">Order placed successfully!</div>
+        )}
+        {orderStatus === 'error' && (
+          <div className="alert alert-danger text-center">Failed to place order. Please try again.</div>
+        )}
+        {cart.length === 0 && orderStatus !== 'success' ? (
           <p className="text-center text-muted my-5 fs-5">Your cart is empty.</p>
         ) : (
           <div className="d-flex flex-column gap-3">
@@ -184,7 +224,9 @@ function CartModal({ show, onHide, cart, removeFromCart, clearCart, totalPrice }
           {cart.length > 0 && (
             <Button variant="outline-secondary" className="me-2" onClick={clearCart}>Clear</Button>
           )}
-          <Button variant="primary" disabled={cart.length === 0}>Checkout</Button>
+          <Button variant="primary" disabled={cart.length === 0 || ordering} onClick={handleCheckout}>
+            {ordering ? 'Placing Order…' : 'Checkout'}
+          </Button>
         </div>
       </Modal.Footer>
     </Modal>

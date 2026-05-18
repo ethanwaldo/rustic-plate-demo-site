@@ -1,3 +1,4 @@
+import { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
 
 const pageVariants = {
@@ -6,46 +7,8 @@ const pageVariants = {
   out: { opacity: 0, y: -20 }
 };
 
-const menuItems = [
-  {
-    name: "Tofu Power Bowl",
-    price: 14,
-    description: "Crispy seasoned tofu cubes paired with fresh edamame, sweet corn, cherry tomatoes, cucumber, red cabbage, and boiled quail eggs.",
-    image: "https://images.unsplash.com/photo-1546069901-ba9599a7e63c?auto=format&fit=crop&w=600&q=80"
-  },
-  {
-    name: "Double Classic Cheeseburger",
-    price: 18,
-    description: "Two juicy beef patties stacked high with melted cheese, crisp lettuce, tomato, red onion, pickles, and our signature burger sauce on a toasted brioche bun.",
-    image: "https://images.unsplash.com/photo-1568901346375-23c9450c58cd?auto=format&fit=crop&w=600&q=80"
-  },
-  {
-    name: "Beef & Spinach Fettuccine",
-    price: 36,
-    description: "Tender chunks of seasoned beef seared and tossed with fettuccine pasta, wilted spinach, and diced tomatoes.",
-    image: "https://images.unsplash.com/photo-1551183053-bf91a1d81141?auto=format&fit=crop&w=600&q=80"
-  },
-  {
-    name: "Shrimp & Tomato Spaghetti",
-    price: 24,
-    description: "Plump, juicy shrimp pan-seared with cherry tomatoes and fresh herbs, served over a bed of al dente spaghetti.",
-    image: "https://images.unsplash.com/photo-1563379926898-05f4575a45d8?auto=format&fit=crop&w=600&q=80"
-  },
-  {
-    name: "Mediterranean Chicken Skillet",
-    price: 28,
-    description: "Golden-brown diced chicken breast sautéed with sweet bell peppers and tomatoes, garnished with fresh basil leaves.",
-    image: "https://images.unsplash.com/photo-1604908176997-125f25cc6f3d?auto=format&fit=crop&w=600&q=80"
-  },
-  {
-    name: "Raspberry Vanilla Layer Cake",
-    price: 10,
-    description: "A light and fluffy vanilla sponge cake layered with rich cream and studded with fresh, tart raspberries.",
-    image: "https://images.unsplash.com/photo-1565958011703-44f9829ba187?auto=format&fit=crop&w=600&q=80"
-  }
-];
-
 export interface MenuItem {
+  _id: string;
   name: string;
   price: number;
   description: string;
@@ -57,6 +20,26 @@ interface MenuProps {
 }
 
 function Menu({ addToCart }: MenuProps) {
+  const [menuItems, setMenuItems] = useState<MenuItem[]>([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
+
+  useEffect(() => {
+    fetch('/api/menu')
+      .then(res => {
+        if (!res.ok) throw new Error('Failed to load menu');
+        return res.json();
+      })
+      .then(data => {
+        setMenuItems(data);
+        setLoading(false);
+      })
+      .catch(err => {
+        setError(err.message);
+        setLoading(false);
+      });
+  }, []);
+
   return (
     <motion.div
       initial="initial"
@@ -73,10 +56,20 @@ function Menu({ addToCart }: MenuProps) {
         </p>
       </div>
 
+      {loading && (
+        <div className="text-center py-5">
+          <div className="spinner-border text-primary" role="status" />
+        </div>
+      )}
+
+      {error && (
+        <div className="alert alert-danger text-center">{error}</div>
+      )}
+
       <div className="row g-4">
         {menuItems.map((item, index) => (
-          <motion.div 
-            key={index} 
+          <motion.div
+            key={item._id}
             className="col-md-6 col-lg-4"
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
@@ -92,7 +85,7 @@ function Menu({ addToCart }: MenuProps) {
                   <span className="menu-price">${item.price}</span>
                 </div>
                 <p className="text-muted mb-4 flex-grow-1">{item.description}</p>
-                <button 
+                <button
                   className="btn btn-outline-primary w-100 mt-auto rounded-pill fw-bold py-2"
                   onClick={() => addToCart(item)}
                 >
